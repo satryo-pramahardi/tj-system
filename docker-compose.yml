@@ -1,6 +1,7 @@
 services:
 
-  # SUPPORT SERVICES: DB, MQTT, RABBITMQ     
+  # === SUPPORT SERVICES ===
+
   db:
     image: postgres:15
     restart: always
@@ -35,41 +36,34 @@ services:
     volumes:
       - mqtt_data:/mosquitto/data
 
-  # BACKEND APPLICATION SERVICES
-  publisher:
-    build:
-      context: ./publisher
-      dockerfile: ../docker/publisher.Dockerfile
-    depends_on:
-      - mqtt-broker
-    env_file:
-      - .env.docker
-
+  # === BACKEND SERVICES ===
   geofence_worker:
     build:
-      context: ./geofence_worker
-      dockerfile: ../docker/geofence_worker.Dockerfile
+      context: .
+      dockerfile: docker/geofence_worker.Dockerfile
     depends_on:
       - rabbitmq
     env_file:
       - .env.docker
+    restart: unless-stopped
 
   backend:
     build:
-      context: ./backend
-      dockerfile: ../docker/backend.Dockerfile
+      context: .
+      dockerfile: docker/backend.Dockerfile
     depends_on:
       - db
       - rabbitmq
     env_file:
       - .env.docker
     restart: unless-stopped
+    ports:
+      - "8080:8080"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 5
-
 
 volumes:
   db_data:

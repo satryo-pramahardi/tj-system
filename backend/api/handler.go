@@ -1,14 +1,11 @@
 package api
 
-import {
+import (
 	"net/http"
-	"strconv"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"tj-system/shared/db"
-	"tj-system/shared/model"
-}
+	"github.com/satryo-pramahardi/tj-system/shared/db"
+)
 
 
 // GET /vehicle/:id

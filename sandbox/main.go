@@ -62,11 +62,11 @@ package main
 
 import (
 	"log"
-	"tj-system/shared/config"
-	"tj-system/shared/db"
+	"github.com/satryo-pramahardi/tj-system/shared/config"
+	"github.com/satryo-pramahardi/tj-system/shared/db"
 
 	"github.com/gin-gonic/gin"
-	"tj-system/backend/api"
+	"github.com/satryo-pramahardi/tj-system/backend/api"
 )
 
 func main() {

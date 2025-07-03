@@ -1,27 +1,25 @@
 package main
 
 import (
-	"log"
-
+	"net/http"
+	
 	"github.com/gin-gonic/gin"
-	"tj-system/shared/config"
-	"tj-system/shared/db"
-	"tj-system/backend/api"
+	"github.com/satryo-pramahardi/tj-system/shared/config"
+	"github.com/satryo-pramahardi/tj-system/shared/db"
+	"github.com/satryo-pramahardi/tj-system/backend/api"
 )
 
 func main() {
-	// Load config and init DB
 	cfg := config.LoadConfig()
 	db.Init(cfg.DatabaseURL)
-	log.Println("✅ Database connected")
 
-	// Start Gin router
 	r := gin.Default()
 
-	// ✅ Set your URL routes here
+	// url routes
 	r.GET("/vehicles/:id/location", api.GetLatestLocation)
-	r.GET("/vehicles/:id/history", api.GetVehicleHistory)
+	r.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
 
-	// Start server
-	r.Run(":8080") // Now server listens on localhost:8080
+	r.Run(":8080")
 }

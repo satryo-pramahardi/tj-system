@@ -2,7 +2,7 @@ package db
 
 import (
 	"log"
-	"tj-system/shared/model"
+	"github.com/satryo-pramahardi/tj-system/shared/model"
 
 	_ "github.com/lib/pq"
 )
