@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "Transjakarta Backend",
+    "_postman_id": "0a1b2c3d-4e5f-6789-abcd-0123456789ab",
+    "description": "API test collection for Transjakarta backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Get Latest Location",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/vehicles/123/location",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["vehicles", "123", "location"]
+        }
+      }
+    },
+    {
+      "name": "Get Location History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/vehicles/123/history",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["vehicles", "123", "history"]
+        }
+      }
+    }
+  ]
+}

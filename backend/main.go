@@ -2,11 +2,12 @@ package main
 
 import (
 	"net/http"
-	
+
 	"github.com/gin-gonic/gin"
-	"github.com/satryo-pramahardi/tj-system/shared/config"
-	"github.com/satryo-pramahardi/tj-system/shared/db"
-	"github.com/satryo-pramahardi/tj-system/backend/api"
+	"tj-system/shared/config"
+	"tj-system/shared/db"
+	"tj-system/backend/api"
+	"tj-system/backend/mqtt"
 )
 
 func main() {
@@ -15,8 +16,12 @@ func main() {
 
 	r := gin.Default()
 
+	// mqtt routes
+	mqtt.Init(cfg.MQTTBroker, cfg.MQTTTopic, db.InsertVehicleLocation)
+
 	// url routes
 	r.GET("/vehicles/:id/location", api.GetLatestLocation)
+	r.GET("/vehicles/:id/history", api.GetLocationHistory)
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/satryo-pramahardi/tj-system/shared/db"
+	"tj-system/shared/db"
 )
 
 
@@ -19,4 +19,22 @@ func GetLatestLocation(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, location)
+}
+
+// GET /vehicle/:id/history
+func GetLocationHistory(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid vehicle ID"})
+		return
+	}
+
+	locations, err := db.GetVehicleLocationHistory(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch history"})
+		return
+	}
+
+	c.JSON(http.StatusOK, locations)
 }
