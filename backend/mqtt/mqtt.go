@@ -5,13 +5,14 @@ import (
 	"log"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	"github.com/satryo-pramahardi/tj-system/shared/db"
-	"github.com/satryo-pramahardi/tj-system/shared/models"
+	"tj-system/shared/db"
+	"tj-system/shared/model"
 )
 
 // StartMQTT initializes the MQTT client, connects to the broker,
 // and subscribes to the given topic.
-func StartMQTT(brokerURL, topic string) {
+func StartMQTT(brokerURL, topic string, handler func(v *model.VehicleLocationPayload) error) {
+	
 	opts := mqtt.NewClientOptions().
 		AddBroker(brokerURL).
 		SetClientID("transjakarta-mqtt-subscriber").
@@ -37,7 +38,7 @@ func StartMQTT(brokerURL, topic string) {
 var handleMessage mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
 	log.Printf("Received message on topic: %s", msg.Topic())
 
-	var payload models.VehicleLocationPayload
+	var payload model.VehicleLocationPayload
 	if err := json.Unmarshal(msg.Payload(), &payload); err != nil {
 		log.Printf("Invalid JSON payload: %v", err)
 		return

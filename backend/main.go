@@ -17,7 +17,7 @@ func main() {
 	r := gin.Default()
 
 	// mqtt routes
-	mqtt.Init(cfg.MQTTBroker, cfg.MQTTTopic, db.InsertVehicleLocation)
+	go mqtt.StartMQTT(cfg.MQTTBroker, cfg.MQTTTopic, db.InsertVehicleLocation)
 
 	// url routes
 	r.GET("/vehicles/:id/location", api.GetLatestLocation)
@@ -26,5 +26,5 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
-	r.Run(":8080")
+	r.Run("0.0.0.0:8080")
 }

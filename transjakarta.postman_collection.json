@@ -40,11 +40,15 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/vehicles/123/history",
+          "raw": "http://localhost:8080/vehicles/123/history?start=1720000000&end=1720086400",
           "protocol": "http",
           "host": ["localhost"],
           "port": "8080",
-          "path": ["vehicles", "123", "history"]
+          "path": ["vehicles", "123", "history"],
+          "query": [
+            { "key": "start", "value": "1720000000" },
+            { "key": "end", "value": "1720086400" }
+          ]
         }
       }
     }

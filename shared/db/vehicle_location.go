@@ -40,7 +40,6 @@ func GetLastVehicleLocation(vehicleID string) (*model.VehicleLocationPayload, er
 	return &v, nil
 }
 
-// GetVehicleLocationHistory returns all vehicle locations between start and end UNIX timestamps.
 func GetVehicleLocationHistory(vehicleID string, start, end int64) ([]model.VehicleLocationPayload, error) {
 	query := `
 		SELECT vehicle_id, latitude, longitude, FLOOR(EXTRACT(EPOCH FROM timestamp))::BIGINT AS timestamp
@@ -48,8 +47,8 @@ func GetVehicleLocationHistory(vehicleID string, start, end int64) ([]model.Vehi
 		WHERE vehicle_id = $1
 		AND timestamp BETWEEN to_timestamp($2) AND to_timestamp($3)
 		ORDER BY timestamp ASC
-
 	`
+
 	rows, err := DB.Query(query, vehicleID, start, end)
 	if err != nil {
 		log.Printf("GetVehicleLocationHistory query error: %v", err)

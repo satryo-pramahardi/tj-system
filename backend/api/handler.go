@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"tj-system/shared/db"
@@ -23,14 +24,22 @@ func GetLatestLocation(c *gin.Context) {
 
 // GET /vehicle/:id/history
 func GetLocationHistory(c *gin.Context) {
-	idStr := c.Param("id")
-	id, err := strconv.Atoi(idStr)
+	id := c.Param("id")
+	startStr := c.Query("start")
+	endStr := c.Query("end")
+
+	start, err := strconv.ParseInt(startStr, 10, 64)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid vehicle ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid start timestamp"})
+		return
+	}
+	end, err := strconv.ParseInt(endStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid end timestamp"})
 		return
 	}
 
-	locations, err := db.GetVehicleLocationHistory(id)
+	locations, err := db.GetVehicleLocationHistory(id, start, end)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch history"})
 		return

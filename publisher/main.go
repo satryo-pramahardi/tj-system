@@ -18,8 +18,8 @@ type VehicleLocationPayload struct {
 	Timestamp int64   `json:"timestamp"`
 }
 
-// metersToLatOffset converts meters to approx latitude degrees
-func metersToLatOffset(m float64) float64 {
+// meterToLatOffset converts meters to approx latitude degrees
+func meterToLatOffset(m float64) float64 {
 	return m / 111320 // 1 degree = 111320 meters
 }
 
@@ -47,10 +47,10 @@ func main() {
 
 	baseLat := -6.2000
 	baseLon := 106.816666
-	step := metersToLatOffset(5) // move ~5 meters per tick
+	step := meterToLatOffset(5) // move ~5 meters per tick
 	offset := 0.0
 	direction := 1.0
-	limit := metersToLatOffset(*tripLength)
+	limit := meterToLatOffset(*tripLength)
 
 	ticker := time.NewTicker(time.Duration(*interval) * time.Second)
 	defer ticker.Stop()
