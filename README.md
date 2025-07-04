@@ -1,6 +1,6 @@
-# Transjakarta Vehicle Tracking System
+# Vehicle Tracking System
 
-This project is a backend system for tracking Transjakarta vehicles in real-time. It collects location data from vehicles via MQTT, stores it in a PostgreSQL database, and provides a RESTful API to query the latest position or travel history.
+This project is a backend system for tracking vehicles in real-time. It collects location data from vehicles via MQTT, stores it in a PostgreSQL database, and provides a RESTful API to query the latest position or travel history.
 
 It also includes geofencing support—when a vehicle enters a predefined area, an event is triggered and published through RabbitMQ. Everything runs inside Docker for easy setup and isolation.
 
@@ -139,10 +139,12 @@ RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
 
 ## Design Consideration
 There are 3 main modules:
-- Backend: work as core service, hosted API server & MQTT
-- Geofence Worker: worker to host queues, will recieve alerts in geofence events
-- Publisher: non-dockerized function to simulate vehicle
+- **Backend**: work as core service, hosted API server & MQTT
+- **Geofence** Worker: worker to host queues, will recieve alerts in geofence events
+- **Publisher**: non-dockerized function to simulate vehicle
+  
+- **Shared**: non-core module, for utils and support functions
 
 Tables:
-- vehicle_location: to store vehicle locations
-- geofence_events: simple DB with JSONDB column, for flexibilty and future dev
+- **vehicle_location**: to store vehicle locations
+- **geofence_events**: simple DB with JSONDB column to store alert messages and futur analytics need, for flexibilty and future dev
